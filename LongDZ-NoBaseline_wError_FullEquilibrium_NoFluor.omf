@@ -17,8 +17,7 @@
 	%-------------------------------------------------------------------------------------
 	% Declaring and initialising model parameters to be estimated.
 	% Assign to each of the model parameters a numerical value.
-	% Can fix FAS, FSU & FSF in optipa itself
-	% We use normalized values for FAS, FSU & FSF because we normalize all data
+
 	% Units of k values are nM^-1*s^-1
 	%-------------------------------------------------------------------------------------
 
