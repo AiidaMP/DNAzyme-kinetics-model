@@ -1,0 +1,150 @@
+%--------------------------------------------------------------------------
+%                       Estimation of kinetic rate constants 
+%--------------------------------------------------------------------------
+
+%-------------------------------------------------------------------------------------
+% ParamDef: Initialising parameters.
+%-------------------------------------------------------------------------------------
+% Define any parameter values for use throughout the model definition file.
+% If explicitly declared as parameters they are available for optimisation.
+% If not, they are treated as global constants. 
+%-------------------------------------------------------------------------------------
+<ParamDef>
+	%-------------------------------------------------------------------------------------
+	% Defining constant global parameters. 
+	%-------------------------------------------------------------------------------------
+		
+	%-------------------------------------------------------------------------------------
+	% Declaring and initialising model parameters to be estimated.
+	% Assign to each of the model parameters a numerical value.
+	% Can fix FAS, FSU & FSF in optipa itself
+	% We use normalized values for FAS, FSU & FSF because we normalize all data
+	% Units of k values are nM^-1*s^-1
+	%-------------------------------------------------------------------------------------
+
+	%<Param> k1 = 0.000106;
+	%<Param> k1off = 0.0014;
+	%<Param> k2 = 0.5;
+	%<Param> k2off = 0.001;
+	%<Param> k3 = 0.24;
+	%<Param> k3off = 0.01;
+	
+	<Param> Err_S = 1;
+	<Param> Err_E = 1;
+	
+	%-------------------------------------------------------------------------------------
+</ParamDef>
+
+%-------------------------------------------------------------------------------------
+% StateDef: Declaring and initialising ODE based state variables.
+%-------------------------------------------------------------------------------------
+% The ODE based state variables are re-initialised for each individual experiment.
+% You can make use of experiment specific conditions or parameter values.
+%
+% The current condition data is available through functions with the same names as 
+% given in the condition file. These allow you to access the condition data in a 
+% continuous way by linear interpolation using: MyConditionColumnName(t)
+% which will give you the value of MyConditionColumnName at the current time t.
+%-------------------------------------------------------------------------------------
+<StateDef>
+	%-------------------------------------------------------------------------------------
+	% Initial values of the state variables depend on experiment
+	% Therefore we call up these values from the condition file
+	%---------------------------------------------------------------------------------------------------------------------------------------------------
+	% Declaring and initialising ODE based state variables. 
+	% Values are put in the condition file with units nM
+	%-------------------------------------------------------------------------------------
+	<State> S = Err_S*Tar_S(0);
+	<State> E = Err_E*Tar_E(0);
+	<State> ES = ES0(0);
+	<State> EP = EP0(0);
+	<State> P = P0(0);
+	%-------------------------------------------------------------------------------------
+</StateDef>
+
+%-------------------------------------------------------------------------------------
+% TransExp: Transforming original experimental data.
+%-------------------------------------------------------------------------------------
+% These transformations are calculated per experiment simulated, so you can make use 
+% of experiment specific conditions or parameter values. The transformed experimental
+% variable should be assigned to itself. No new variables can be created. 
+%
+% The experimental data is available through column vectors with the same variable 
+% names as given in the experimental data file. 
+% The experimental time vector is given as: t_exp
+%
+% The current condition data is available through functions with the same names as 
+% given in the condition file. These allow you to access the condition data in a 
+% continuous way by linear interpolation using: MyConditionColumnName(t_exp)
+% which will give you the value of MyConditionColumnName at all time points of t_exp.
+%-------------------------------------------------------------------------------------
+<TransExp>
+	%-------------------------------------------------------------------------------------
+	% Free programming space. 
+	%-------------------------------------------------------------------------------------
+	%-------------------------------------------------------------------------------------
+	% Assigning transformed values to existing experimental variables. 
+	%-------------------------------------------------------------------------------------
+	%-------------------------------------------------------------------------------------
+</TransExp>
+
+%-------------------------------------------------------------------------------------
+% ModelDef: Defining derivatives of the state variables.
+%-------------------------------------------------------------------------------------
+% You can make use of experiment specific conditions or parameter values.
+%
+% The current values of all model ODE based state variables are available through 
+% scalars with the names as declared in <StateDef> 
+% The current time is given by the scalar t.
+%
+% The current condition data is available through functions with the same names as 
+% given in the condition file. These allow you to access the condition data in a 
+% continuous way by linear interpolation using: MyConditionColumnName(t)
+% which will give you the value of MyConditionColumnName at the current time t.
+%-------------------------------------------------------------------------------------
+<ModelDef> 
+	%-------------------------------------------------------------------------------------
+	% Free programming space. 
+	%-------------------------------------------------------------------------------------
+	%-------------------------------------------------------------------------------------
+	% Defining derivatives. 
+	%-------------------------------------------------------------------------------------
+	Deriv(E)= -k1*E*S + k1off*ES + k3*EP - k3off*P*E;
+	Deriv(S)= -k1*E*S + k1off*ES; 
+	Deriv(ES)= k1*E*S - k1off*ES - k2*ES + k2off*EP;
+	Deriv(EP)= k2*ES - k2off*EP - k3*EP + k3off*P*E;
+	Deriv(P)= k3*EP - k3off*P*E;
+	%-------------------------------------------------------------------------------------
+</ModelDef>
+
+%-------------------------------------------------------------------------------------
+% TransOut: Processing ODE model outputs.
+%-------------------------------------------------------------------------------------
+% Manipulation of the ODE output values per experiment simulated. 
+% This includes transformations and creation of additional variables.
+% The transformations are calculated per experiment simulated, so you can make use of
+% experiment specific conditions or parameter values.
+%
+% The results of all ODE based state variables are available through column vectors 
+% with the same names as declared in <StateDef>. 
+% The model time vector is given as: t_mod. 
+% New output variables require declaration using <Output>.
+%
+% The current condition data is available through functions with the same names as 
+% given in the condition file. These allow you to access the condition data in a 
+% continuous way by linear interpolation using: MyConditionColumnName(t_mod)
+% which will give you the value of MyConditionColumnName at all time points of t_mod.
+%-------------------------------------------------------------------------------------
+<TransOut>
+	%-------------------------------------------------------------------------------------
+	% Free programming space. 
+	%-------------------------------------------------------------------------------------
+	%-------------------------------------------------------------------------------------
+	% Assigning transformed values to existing ODE based state variables. 
+	%-------------------------------------------------------------------------------------
+	%-------------------------------------------------------------------------------------
+	% Declaring and assigning values to new output variables. 
+	%-------------------------------------------------------------------------------------
+	<Output> Total = EP + P;
+	%-------------------------------------------------------------------------------------
+</TransOut>
