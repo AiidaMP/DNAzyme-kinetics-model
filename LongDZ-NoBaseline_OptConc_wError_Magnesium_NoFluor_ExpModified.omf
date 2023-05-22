@@ -24,29 +24,29 @@
 	% Assign to each of the model parameters a numerical value.
 
 	%-------------------------------------------------------------------------------------
-	<Param> a_1 = 0.14887;
-	<Param> b_1 = 0.1475;
-	<Param> c_1 = 0.019152;
+	<Param> a_1 = 0.00126;
+	<Param> b_1 = 0.00233;
+	<Param> c_1 = 0.0298;
 	
-	<Param> a_1off = 0.1848;
-	<Param> b_1off = 0.025746;
-	<Param> c_1off = 0.27058;	
+	<Param> a_1off = 0.0548;
+	<Param> b_1off = 0;
+	<Param> c_1off = 0;	
 	
-	<Param> a_2 = 4.6459;
-	%<Param> b_2 = 0.80499;
-	<Param> c_2 = 0.0086782;
+	<Param> a_2 = 0.259;
+	<Param> c_2 = 0.0925;
 	
-	<Param> a_3 = 0.18499;
-	<Param> b_3 = 0.13537;
-	<Param> c_3 = 0.67247;
+	<Param> a_3 = 16.4;
+	<Param> b_3 = 239;
+	<Param> c_3 = 0.137;
 	
-	<Param> a_3off = 0.013079;
-	<Param> b_3off = 0.050561;
-	<Param> c_3off = 0.75126;
+	<Param> a_3off = 0.1;
+	<Param> b_3off = 0;
+	<Param> c_3off = 0;
 	
 	<Param> Err_S = 1;
 	<Param> Err_E = 1;
-	
+
+
 	%-------------------------------------------------------------------------------------
 </ParamDef>
 
@@ -67,7 +67,7 @@
 	% Therefore we call up these values from the condition file
 	%---------------------------------------------------------------------------------------------------------------------------------------------------
 	% Declaring and initialising ODE based state variables. 
-	% Values are put in the condition file with units nM
+	% Values are put in the condition file with units (nmol/L)^-1 · sec^-1
 	%-------------------------------------------------------------------------------------
 	<State> S = Err_S*Tar_S(0);
 	<State> E = Err_E*Tar_E(0);
@@ -123,7 +123,7 @@
 	% Free programming space. 
 	%-------------------------------------------------------------------------------------
 
-	b_2 = -a_2; % To ensure the y-intercept crosses at x = 0
+	
 
 	% Implementing an exponential relation
 	
@@ -131,6 +131,7 @@
 	
 	k1off = a_1off + b_1off * exp(-c_1off * Mg(0));
 	
+	b_2 = -a_2; % To ensure the y-intercept crosses at x = 0
 	k2 = a_2 + b_2 * exp(-c_2 * Mg(0));
 	
 	k3 = a_3 + b_3 * exp(-c_3 * Mg(0));
