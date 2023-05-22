@@ -18,16 +18,25 @@
 	% Declaring and initialising model parameters to be estimated.
 	% Assign to each of the model parameters a numerical value.
 
-	% Units of k values are nM^-1*s^-1
+	% Units of k values are (nmol/L)^-1 · s^-1
 	%-------------------------------------------------------------------------------------
-
-	%<Param> k1 = 0.000106;
-	%<Param> k1off = 0.0014;
-	%<Param> k2 = 0.5;
-	%<Param> k2off = 0.001;
-	%<Param> k3 = 0.24;
-	%<Param> k3off = 0.01;
+	% Output values of the Enhanced Scatter Search, used for the initialization of the lsqnonlinear optimization
+	<Param> k1 = 0.000106;
+	<Param> k1off = 0.0014;
+	<Param> k2 = 0.5;
+	<Param> k2off = 0.001;
+	<Param> k3 = 0.24;
+	<Param> k3off = 0.01;
 	
+	% Output values after the bootstrap sampling
+	%<Param> k1 = 0.00451;
+	%<Param> k1off = 0.156;
+	%<Param> k2 = 0.221;
+	%<Param> k2off = 0;
+	%<Param> k3 = 21;
+	%<Param> k3off = 0.113;	
+
+
 	<Param> Err_S = 1;
 	<Param> Err_E = 1;
 	
@@ -51,7 +60,7 @@
 	% Therefore we call up these values from the condition file
 	%---------------------------------------------------------------------------------------------------------------------------------------------------
 	% Declaring and initialising ODE based state variables. 
-	% Values are put in the condition file with units nM
+	% Values are put in the condition file with (nmol/L)^-1 · s^-1 units
 	%-------------------------------------------------------------------------------------
 	<State> S = Err_S*Tar_S(0);
 	<State> E = Err_E*Tar_E(0);
