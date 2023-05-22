@@ -21,23 +21,23 @@
 		
 	%-------------------------------------------------------------------------------------
 	% Declaring and initialising model parameters to be estimated.
-	% Units of k values are nM^-1*sec^-1
+	% Units of k values are (nmol/L)^-1 · sec^-1
 	% Units of temperature are in Celsius, OptiPa converts them in Kelvin
 	%-------------------------------------------------------------------------------------
 
-	<Param> kref_1 = 0.0045126;
+	<Param> kref_1 = 0.00584;
 	<Param> Ea_1 = 0;
 	
-	<Param> kref_1off = 0.15599;
-	<Param> Ea_1off = 3.08E+05;
+	<Param> kref_1off = 0.148;
+	<Param> Ea_1off = 2.29E+05;
 	
-	<Param> kref_2 = 0.22121;
-	<Param> Ea_2 = 1.03E+05;
+	<Param> kref_2 = 0.25;
+	<Param> Ea_2 = 1.39E+05;
 	
-	<Param> kref_3 = 21.01;
-	<Param> Ea_3 = 2.74E+05;
+	<Param> kref_3 = 16.8;
+	<Param> Ea_3 = 3.37E+05;
 	
-	<Param> kref_3off = 0.11338;
+	<Param> kref_3off = 0.0861;
 	<Param> Ea_3off = 0;
 	
 	<Param> Err_S = 1;
@@ -63,7 +63,7 @@
 	% Therefore we call up these values from the condition file
 	%---------------------------------------------------------------------------------------------------------------------------------------------------
 	% Declaring and initialising ODE based state variables. 
-	% Values are put in the condition file with units nM
+	% Values are put in the condition file with units (nmol/L)^-1 · sec^-1
 	%-------------------------------------------------------------------------------------
 	<State> S = Err_S*Tar_S(0);
 	<State> E = Err_E*Tar_E(0);
